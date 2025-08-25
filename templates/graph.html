@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="graph-wrap">
+  <h2>Dependencies Graph</h2>
+  <svg id="graph" style="width: 100%; height: calc(100vh - 160px);"></svg>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="{{ url_for('static', filename='graph.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.css"
+/>
+<section>
+  <div id="fc"></div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js"></script>
+<script src="{{ url_for('static', filename='calendar.js') }}"></script>
+{% endblock %}

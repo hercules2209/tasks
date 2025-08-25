@@ -1,0 +1,261 @@
+{
+  "tasks": [
+    {
+      "key": "w01",
+      "title": "Week 1 – Tauri v2 fundamentals",
+      "description": "App model, commands, events, windows, menus, capabilities, plugins.",
+      "priority": 2,
+      "week": 1,
+      "status": "todo",
+      "subtasks": [
+        "Hello Tauri app",
+        "Add one Rust command",
+        "Create capabilities file",
+        "Basic menu & quit"
+      ],
+      "depends_on": []
+    },
+    {
+      "key": "w02",
+      "title": "Week 2 – Rust essentials",
+      "description": "Ownership, lifetimes, traits, error handling, logging, serde.",
+      "priority": 2,
+      "week": 2,
+      "status": "todo",
+      "subtasks": [
+        "Set up tracing logs",
+        "Add anyhow/thiserror patterns",
+        "Serde JSON roundtrip"
+      ],
+      "depends_on": ["w01"]
+    },
+    {
+      "key": "w03",
+      "title": "Week 3 – SQLite + FTS5 theory",
+      "description": "WAL, FTS5 schema, triggers, bm25, snippet/highlight.",
+      "priority": 2,
+      "week": 3,
+      "status": "todo",
+      "subtasks": [
+        "Draft schema",
+        "FTS5 external content design",
+        "bm25 + snippet SQL prototype"
+      ],
+      "depends_on": ["w02"]
+    },
+    {
+      "key": "w04",
+      "title": "Week 4 – Rust + SQLite integration",
+      "description": "sqlx/rusqlite, pooling, migrations, WAL, benchmarks.",
+      "priority": 2,
+      "week": 4,
+      "status": "todo",
+      "subtasks": ["Migrations applied", "WAL enabled", "CRUD + search"],
+      "depends_on": ["w03"]
+    },
+    {
+      "key": "w05",
+      "title": "Week 5 – TypeScript + React/Vue",
+      "description": "TS strict, Vite, state mgmt, shared IPC types.",
+      "priority": 2,
+      "week": 5,
+      "status": "todo",
+      "subtasks": ["Scaffold UI", "Strict TS", "IPC type definitions"],
+      "depends_on": ["w04"]
+    },
+    {
+      "key": "w06",
+      "title": "Week 6 – Editor stack",
+      "description": "Markdown pipeline + sanitize + code highlight OR rich text.",
+      "priority": 2,
+      "week": 6,
+      "status": "todo",
+      "subtasks": ["Paste sanitization", "Code highlighting", "Editor renders"],
+      "depends_on": ["w05"]
+    },
+    {
+      "key": "w07",
+      "title": "Week 7 – OS integrations",
+      "description": "Clipboard, global shortcuts, notifications, store, window-state.",
+      "priority": 2,
+      "week": 7,
+      "status": "todo",
+      "subtasks": [
+        "Clipboard API works",
+        "Hotkey registers",
+        "Notifications show"
+      ],
+      "depends_on": ["w06"]
+    },
+    {
+      "key": "w08",
+      "title": "Week 8 – Security & privacy",
+      "description": "Capabilities, CSP, secrets, sanitizer, least privilege.",
+      "priority": 1,
+      "week": 8,
+      "status": "todo",
+      "subtasks": ["CSP applied", "Sanitizer tested", "Capabilities tightened"],
+      "depends_on": ["w07"]
+    },
+    {
+      "key": "w09",
+      "title": "Week 9 – MCP basics",
+      "description": "MCP servers/tools, JSON-RPC, stdio transport, TS SDK.",
+      "priority": 2,
+      "week": 9,
+      "status": "todo",
+      "subtasks": ["Toy MCP tool", "List tools", "Invoke tool"],
+      "depends_on": ["w08"]
+    },
+    {
+      "key": "w10",
+      "title": "Week 10 – Discord RPC (opt)",
+      "description": "IPC basics, activity payload, opt-in setting.",
+      "priority": 3,
+      "week": 10,
+      "status": "todo",
+      "subtasks": ["Presence update", "Disable toggle", "No UI blocking"],
+      "depends_on": ["w09"]
+    },
+    {
+      "key": "w11",
+      "title": "Week 11 – Testing & QA",
+      "description": "Rust tests, TS tests, Playwright E2E, property tests.",
+      "priority": 1,
+      "week": 11,
+      "status": "todo",
+      "subtasks": ["DB tests", "Search property tests", "E2E CRUD + search"],
+      "depends_on": ["w10"]
+    },
+    {
+      "key": "w12",
+      "title": "Week 12 – Build & release basics",
+      "description": "Bundle per OS, signing/notarization plan, CI matrix.",
+      "priority": 2,
+      "week": 12,
+      "status": "todo",
+      "subtasks": ["Build artifacts", "CI template", "Signing plan"],
+      "depends_on": ["w11"]
+    },
+    {
+      "key": "w13",
+      "title": "Week 13 – Project skeleton",
+      "description": "Repo, Tauri v2 app, plugins (store, logging, window-state), status bar.",
+      "priority": 2,
+      "week": 13,
+      "status": "todo",
+      "subtasks": ["Single instance", "Window state", "Status bar"],
+      "depends_on": ["w12"]
+    },
+    {
+      "key": "w14",
+      "title": "Week 14 – DB and migrations",
+      "description": "Schema: notes, tags, attachments, FTS5, triggers, backups.",
+      "priority": 1,
+      "week": 14,
+      "status": "todo",
+      "subtasks": ["Migrations", "Triggers working", "Backup API"],
+      "depends_on": ["w13"]
+    },
+    {
+      "key": "w15",
+      "title": "Week 15 – Editor + CRUD UI",
+      "description": "Markdown/rich text editor, autosave, undo/redo, sanitize.",
+      "priority": 2,
+      "week": 15,
+      "status": "todo",
+      "subtasks": ["Autosave", "Undo/redo", "Sanitized render"],
+      "depends_on": ["w14"]
+    },
+    {
+      "key": "w16",
+      "title": "Week 16 – Search UX (FTS5)",
+      "description": "AND/OR/phrase, prefix, bm25 rank, snippet, debounce.",
+      "priority": 1,
+      "week": 16,
+      "status": "todo",
+      "subtasks": ["Prefix & phrase", "bm25 sorting", "Snippet highlight"],
+      "depends_on": ["w15"]
+    },
+    {
+      "key": "w17",
+      "title": "Week 17 – Clipboard integration",
+      "description": "New note from clipboard, HTML->sanitized text, images.",
+      "priority": 2,
+      "week": 17,
+      "status": "todo",
+      "subtasks": ["Text/image", "HTML sanitize", "From clipboard button"],
+      "depends_on": ["w16"]
+    },
+    {
+      "key": "w18",
+      "title": "Week 18 – Global hotkey",
+      "description": "Configurable shortcut, Wayland guidance/portal fallback.",
+      "priority": 2,
+      "week": 18,
+      "status": "todo",
+      "subtasks": ["Default focus hotkey", "Settings override", "Wayland note"],
+      "depends_on": ["w17"]
+    },
+    {
+      "key": "w19",
+      "title": "Week 19 – Settings, theming",
+      "description": "Store JSON, CSS variables, Tokyo Night default, plugin CSS path.",
+      "priority": 2,
+      "week": 19,
+      "status": "todo",
+      "subtasks": ["Theme toggle", "Min font size", "Plugin CSS"],
+      "depends_on": ["w18"]
+    },
+    {
+      "key": "w20",
+      "title": "Week 20 – MCP plugin manager",
+      "description": "Discover plugins/, manifest parse, spawn stdio, list/invoke, cancel.",
+      "priority": 1,
+      "week": 20,
+      "status": "todo",
+      "subtasks": ["Tool list", "Invoke & result", "Timeout & cancel"],
+      "depends_on": ["w19"]
+    },
+    {
+      "key": "w21",
+      "title": "Week 21 – Import/Export/Backup",
+      "description": "Export MD/JSON/ZIP, import, periodic backup & checkpoint.",
+      "priority": 2,
+      "week": 21,
+      "status": "todo",
+      "subtasks": ["Export notebook", "Import JSON", "Checkpoint on exit"],
+      "depends_on": ["w20"]
+    },
+    {
+      "key": "w22",
+      "title": "Week 22 – Discord RPC (opt-in)",
+      "description": "Presence on active note, privacy toggle, idle detect.",
+      "priority": 3,
+      "week": 22,
+      "status": "todo",
+      "subtasks": ["Update presence", "Toggle off", "No block on error"],
+      "depends_on": ["w21"]
+    },
+    {
+      "key": "w23",
+      "title": "Week 23 – QA hardening",
+      "description": "Logs + rotation, error dialogs, autosave recovery, E2E suite.",
+      "priority": 1,
+      "week": 23,
+      "status": "todo",
+      "subtasks": ["Friendly error codes", "Recovery works", "E2E green"],
+      "depends_on": ["w22"]
+    },
+    {
+      "key": "w24",
+      "title": "Week 24 – Packaging & release",
+      "description": "Icons, AppImage/DEB, MSI/WiX, DMG, CI release, v0.1.0.",
+      "priority": 2,
+      "week": 24,
+      "status": "todo",
+      "subtasks": ["3 OS installers", "Signed where possible", "Release notes"],
+      "depends_on": ["w23"]
+    }
+  ]
+}

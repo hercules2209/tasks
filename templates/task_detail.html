@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/css/tom-select.min.css"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tom-select/2.3.1/js/tom-select.complete.min.js"></script>
+
+<article class="task-view" data-task-id="{{ task.id }}">
+  <header class="task-header">
+    <div class="task-title-row">
+      <h2 contenteditable="true" id="task-title">{{ task.title }}</h2>
+      <button id="save-task" class="btn-primary">Save</button>
+    </div>
+    <div class="task-controls">
+      <select id="task-status" aria-label="Status">
+        <option value="todo" {% if task.status=='todo' %}selected{% endif %}>todo</option>
+        <option value="in_progress" {% if task.status=='in_progress' %}selected{% endif %}>in_progress</option>
+        <option value="done" {% if task.status=='done' %}selected{% endif %}>done</option>
+      </select>
+      <select id="task-priority" aria-label="Priority">
+        <option value="1" {% if task.priority==1 %}selected{% endif %}>High</option>
+        <option value="2" {% if task.priority==2 %}selected{% endif %}>Normal</option>
+        <option value="3" {% if task.priority==3 %}selected{% endif %}>Low</option>
+      </select>
+      <input id="task-week" type="number" min="1" value="{{ task.week or '' }}" placeholder="Week #" aria-label="Week" />
+    </div>
+  </header>
+
+  <section class="task-meta">
+    <div>Priority: <span class="badge prio p{{ task.priority }}">P{{ task.priority }}</span></div>
+    <div>Planned: {{ task.start_date or "—" }} → {{ task.end_date or "—" }}</div>
+    <div>Started: {{ task.started_at or "—" }}</div>
+    <div>Completed: {{ task.completed_at or "—" }}</div>
+    <div>Status: <span class="badge {{ task.status }}">{{ task.status }}</span></div>
+  </section>
+
+  <section>
+    <h3>Description</h3>
+    <textarea id="task-desc" rows="8">{{ task.description or "" }}</textarea>
+  </section>
+
+  <section>
+    <h3>Subtasks</h3>
+    <ul class="subtasks">
+      {% for st in task.subtasks.order_by(Subtask.id.asc()) %}
+      <li data-subtask-id="{{ st.id }}">
+        <label>
+          <input
+            class="chk"
+            type="checkbox"
+            {% if st.done %}checked{% endif %}
+            {% if task.status=='blocked' %}disabled{% endif %}
+            data-action="toggle-subtask"
+          />
+          <span>{{ st.title }}</span>
+        </label>
+        <button
+          class="sub-del"
+          title="Delete subtask"
+          data-action="delete-subtask"
+          {% if task.status=='blocked' %}disabled{% endif %}
+        >
+          ×
+        </button>
+      </li>
+      {% endfor %}
+      <li class="new-subtask">
+        <input
+          type="text"
+          placeholder="Add subtask…"
+          data-action="new-subtask-input"
+          {% if task.status=='blocked' %}disabled{% endif %}
+        />
+      </li>
+    </ul>
+  </section>
+
+  <section class="deps">
+    <h3>Dependencies (prerequisites)</h3>
+    {% if deps %}
+    <ul>
+      {% for d in deps %}
+      <li><a href="{{ url_for('task_detail', task_id=d.id) }}">{{ d.title }}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+
+    <h4>Add dependency</h4>
+    <form id="add-dep-form">
+      <select id="dep-select" placeholder="Search task…"></select>
+      <button class="btn" type="submit">Add</button>
+    </form>
+    <input
+      type="hidden"
+      id="existing-dep-ids"
+      value="{{ deps | map(attribute='id') | join(',') }}"
+    />
+
+    <h3>Dependents (blocked by this task)</h3>
+    {% if dependents %}
+    <ul>
+      {% for d in dependents %}
+      <li><a href="{{ url_for('task_detail', task_id=d.id) }}">{{ d.title }}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>None</p>
+    {% endif %}
+  </section>
+
+  <section class="danger">
+    <button id="delete-task" class="btn-danger">Delete Task</button>
+  </section>
+</article>
+
+<script src="{{ url_for('static', filename='task.js') }}"></script>
+{% endblock %}
