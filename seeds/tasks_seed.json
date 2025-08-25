@@ -1,261 +1,724 @@
 {
   "tasks": [
     {
-      "key": "w01",
-      "title": "Week 1 – Tauri v2 fundamentals",
-      "description": "App model, commands, events, windows, menus, capabilities, plugins.",
+      "key": "L01",
+      "title": "Week 1 – Tauri v2 fundamentals (Learning)",
+      "description": "Understand Tauri app model, capabilities, plugin ecosystem, and dev tooling.",
       "priority": 2,
       "week": 1,
-      "status": "todo",
       "subtasks": [
-        "Hello Tauri app",
-        "Add one Rust command",
-        "Create capabilities file",
-        "Basic menu & quit"
+        "Install Rust stable, Node LTS, and Tauri CLI",
+        "Read Tauri v2 overview: app, commands, windows, events, menus",
+        "Study capabilities (least-privilege) and plugin model",
+        "Create a Hello Tauri app and run in dev mode",
+        "Set up rustfmt, clippy, Prettier, and ESLint (TS strict)"
       ],
       "depends_on": []
     },
     {
-      "key": "w02",
-      "title": "Week 2 – Rust essentials",
-      "description": "Ownership, lifetimes, traits, error handling, logging, serde.",
+      "key": "B01",
+      "title": "Week 1 – Project skeleton & repo hygiene (Build)",
+      "description": "Initialize repo, basic window/menu, core plugins, and logging skeleton.",
+      "priority": 2,
+      "week": 1,
+      "subtasks": [
+        "Initialize git repo and directory layout (src-tauri, src, docs, seeds)",
+        "Add plugins: store, log, window-state, single-instance",
+        "Implement base window, menu, and quit action",
+        "Create capabilities file with minimal permissions",
+        "Add status bar placeholder and build the app"
+      ],
+      "depends_on": ["L01"]
+    },
+    {
+      "key": "L02",
+      "title": "Week 2 – Rust for app development (Learning)",
+      "description": "Ownership, lifetimes, traits; error handling; logging; JSON (serde).",
       "priority": 2,
       "week": 2,
-      "status": "todo",
       "subtasks": [
-        "Set up tracing logs",
-        "Add anyhow/thiserror patterns",
-        "Serde JSON roundtrip"
+        "Review Rust Book chapters on ownership/borrowing/lifetimes",
+        "Adopt thiserror for typed errors and anyhow for app-level errors",
+        "Set up tracing + tracing-subscriber for structured logs",
+        "Practice serde (JSON) roundtrip types for IPC payloads",
+        "Draft error code and logging conventions document"
       ],
-      "depends_on": ["w01"]
+      "depends_on": ["L01"]
     },
     {
-      "key": "w03",
-      "title": "Week 3 – SQLite + FTS5 theory",
-      "description": "WAL, FTS5 schema, triggers, bm25, snippet/highlight.",
+      "key": "B02",
+      "title": "Week 2 – Rust command layer & IPC types (Build)",
+      "description": "Create typed Tauri commands, common response envelope, and error mapping.",
       "priority": 2,
-      "week": 3,
-      "status": "todo",
+      "week": 2,
       "subtasks": [
-        "Draft schema",
-        "FTS5 external content design",
-        "bm25 + snippet SQL prototype"
+        "Define a common Result/Response envelope for commands",
+        "Implement 2–3 example commands with serde-typed structs",
+        "Map errors to user-friendly codes/messages",
+        "Wire tracing logs into commands and frontend console",
+        "Add unit tests for command input/output validation"
       ],
-      "depends_on": ["w02"]
+      "depends_on": ["L02", "B01"]
     },
     {
-      "key": "w04",
-      "title": "Week 4 – Rust + SQLite integration",
-      "description": "sqlx/rusqlite, pooling, migrations, WAL, benchmarks.",
+      "key": "L03",
+      "title": "Week 3 – SQLite + FTS5 design (Learning)",
+      "description": "WAL, FTS5 external content tables, triggers, ranking, snippet/highlight.",
+      "priority": 1,
+      "week": 3,
+      "subtasks": [
+        "Study SQLite journaling (WAL) for durability and concurrency",
+        "Read FTS5 docs: external content vs contentless trade-offs",
+        "Plan schema: notes, folders, tags, note_tags, attachments",
+        "Design FTS5 table + triggers to keep index in sync",
+        "Decide Rust DB crate (sqlx vs rusqlite) and migration strategy"
+      ],
+      "depends_on": ["L02"]
+    },
+    {
+      "key": "B03",
+      "title": "Week 3 – DB layer & migrations (Build)",
+      "description": "Implement schema, migrations, FTS5 virtual table, triggers, WAL, backups.",
+      "priority": 1,
+      "week": 3,
+      "subtasks": [
+        "Create migrations for core tables and FTS5 virtual table",
+        "Implement triggers to sync FTS index on CRUD",
+        "Enable WAL mode and safe checkpoint on exit",
+        "Add backup/export SQLite copy function",
+        "Write tests for migrations, triggers, and backup"
+      ],
+      "depends_on": ["L03", "B02"]
+    },
+    {
+      "key": "L04",
+      "title": "Week 4 – TypeScript + React/Vue fundamentals (Learning)",
+      "description": "TS strict mode, Vite, state management, a11y basics, Tauri JS APIs.",
       "priority": 2,
       "week": 4,
-      "status": "todo",
-      "subtasks": ["Migrations applied", "WAL enabled", "CRUD + search"],
-      "depends_on": ["w03"]
+      "subtasks": [
+        "Initialize React (or Vue) with Vite in TS strict mode",
+        "Pick state management (Redux Toolkit or Zustand/Pinia) and rationale",
+        "Review WAI-ARIA patterns and keyboard navigation essentials",
+        "Explore @tauri-apps/api patterns for invoking commands",
+        "Define shared IPC types (TS <-> Rust) shapes"
+      ],
+      "depends_on": ["L03"]
     },
     {
-      "key": "w05",
-      "title": "Week 5 – TypeScript + React/Vue",
-      "description": "TS strict, Vite, state mgmt, shared IPC types.",
+      "key": "B04",
+      "title": "Week 4 – UI shell & IPC handshake (Build)",
+      "description": "Sidebar, toolbar, editor pane placeholders; IPC wiring; error toasts.",
+      "priority": 2,
+      "week": 4,
+      "subtasks": [
+        "Build shell layout: sidebar, toolbar, content pane, status bar",
+        "Implement IPC calls to 2–3 Rust commands with TS types",
+        "Add global error toast/snackbar with error codes",
+        "Persist window size/position via window-state plugin",
+        "Smoke test UI + Rust handshake on three OSes (dev)"
+      ],
+      "depends_on": ["L04", "B03"]
+    },
+    {
+      "key": "L05",
+      "title": "Week 5 – Editor stack (Learning)",
+      "description": "Choose Markdown (remark/rehype + sanitize + syntax highlight) or rich text.",
       "priority": 2,
       "week": 5,
-      "status": "todo",
-      "subtasks": ["Scaffold UI", "Strict TS", "IPC type definitions"],
-      "depends_on": ["w04"]
+      "subtasks": [
+        "Evaluate Markdown vs rich text (Tiptap/Lexical) trade-offs",
+        "Prototype paste sanitization and code highlighting",
+        "Decide storage format (Markdown text) and render pipeline",
+        "Plan autosave and undo/redo responsibilities",
+        "Document editor security: sanitizer allowlist"
+      ],
+      "depends_on": ["L04"]
     },
     {
-      "key": "w06",
-      "title": "Week 6 – Editor stack",
-      "description": "Markdown pipeline + sanitize + code highlight OR rich text.",
+      "key": "B05",
+      "title": "Week 5 – Editor integration (Build)",
+      "description": "Integrate editor, autosave, undo/redo, sanitization, highlighting.",
+      "priority": 2,
+      "week": 5,
+      "subtasks": [
+        "Integrate chosen editor component with controlled state",
+        "Add autosave (debounced) to DB via command",
+        "Enable undo/redo within editor and preserve on save",
+        "Apply HTML sanitizer to preview/rendered content",
+        "Add unit tests for paste and sanitize behaviors"
+      ],
+      "depends_on": ["L05", "B04"]
+    },
+    {
+      "key": "L06",
+      "title": "Week 6 – FTS5 advanced queries (Learning)",
+      "description": "AND/OR/NEAR, prefix, bm25 ranking, snippet/highlight, perf considerations.",
       "priority": 2,
       "week": 6,
-      "status": "todo",
-      "subtasks": ["Paste sanitization", "Code highlighting", "Editor renders"],
-      "depends_on": ["w05"]
+      "subtasks": [
+        "Experiment with phrase and prefix queries",
+        "Test NEAR and logical operators for quality",
+        "Calibrate bm25 ranking and snippet generation",
+        "Measure query timings on synthetic 10k+ notes",
+        "Draft search UX and ranking rules"
+      ],
+      "depends_on": ["L05"]
     },
     {
-      "key": "w07",
-      "title": "Week 7 – OS integrations",
-      "description": "Clipboard, global shortcuts, notifications, store, window-state.",
+      "key": "B06",
+      "title": "Week 6 – Search UX & performance (Build)",
+      "description": "Search bar, debounce, results list, highlight, keyboard nav, <200 ms target.",
+      "priority": 1,
+      "week": 6,
+      "subtasks": [
+        "Implement search bar with debounce and instant results",
+        "Render results list with snippet highlight and score",
+        "Support keyboard navigation and open-on-Enter",
+        "Collect timing metrics and optimize to <200 ms",
+        "Add integration tests for search flows"
+      ],
+      "depends_on": ["L06", "B05"]
+    },
+    {
+      "key": "L07",
+      "title": "Week 7 – OS integrations (Learning)",
+      "description": "Clipboard formats, global shortcuts overview, notifications, Wayland vs X11.",
       "priority": 2,
       "week": 7,
-      "status": "todo",
       "subtasks": [
-        "Clipboard API works",
-        "Hotkey registers",
-        "Notifications show"
+        "Review Tauri clipboard, global-shortcut, and notification plugins",
+        "List supported clipboard formats (text, HTML, image, RTF)",
+        "Note Wayland limitations vs X11; plan fallback guidance",
+        "Design UX for 'New note from clipboard'",
+        "Define notification usage and throttling rules"
       ],
-      "depends_on": ["w06"]
+      "depends_on": ["L06"]
     },
     {
-      "key": "w08",
-      "title": "Week 8 – Security & privacy",
-      "description": "Capabilities, CSP, secrets, sanitizer, least privilege.",
-      "priority": 1,
-      "week": 8,
-      "status": "todo",
-      "subtasks": ["CSP applied", "Sanitizer tested", "Capabilities tightened"],
-      "depends_on": ["w07"]
-    },
-    {
-      "key": "w09",
-      "title": "Week 9 – MCP basics",
-      "description": "MCP servers/tools, JSON-RPC, stdio transport, TS SDK.",
+      "key": "B07",
+      "title": "Week 7 – Clipboard integration (Build)",
+      "description": "Copy/paste text and images, create note from clipboard, sanitize HTML.",
       "priority": 2,
-      "week": 9,
-      "status": "todo",
-      "subtasks": ["Toy MCP tool", "List tools", "Invoke tool"],
-      "depends_on": ["w08"]
+      "week": 7,
+      "subtasks": [
+        "Read/write clipboard text; handle HTML to sanitized content",
+        "Save pasted images as files and link in note",
+        "Add 'New note from clipboard' action and notification",
+        "Cover edge cases: empty, large, unsupported formats",
+        "Add tests for paste transforms and image persistence"
+      ],
+      "depends_on": ["L07", "B06"]
     },
     {
-      "key": "w10",
-      "title": "Week 10 – Discord RPC (opt)",
-      "description": "IPC basics, activity payload, opt-in setting.",
-      "priority": 3,
-      "week": 10,
-      "status": "todo",
-      "subtasks": ["Presence update", "Disable toggle", "No UI blocking"],
-      "depends_on": ["w09"]
+      "key": "L08",
+      "title": "Week 8 – Global hotkeys (Learning)",
+      "description": "Native vs portal approaches, focus behavior, conflicts, settings schema.",
+      "priority": 2,
+      "week": 8,
+      "subtasks": [
+        "Survey global hotkey APIs on Windows/macOS/X11/Wayland",
+        "Plan default shortcut and OS-specific variations",
+        "Design focus/toggle behavior (idempotent, no flicker)",
+        "Draft settings schema for user-configurable hotkeys",
+        "Write Wayland limitations help text"
+      ],
+      "depends_on": ["L07"]
     },
     {
-      "key": "w11",
-      "title": "Week 11 – Testing & QA",
-      "description": "Rust tests, TS tests, Playwright E2E, property tests.",
+      "key": "B08",
+      "title": "Week 8 – Global hotkey implementation (Build)",
+      "description": "Register/unregister hotkeys, focus/toggle window, Wayland guidance.",
+      "priority": 2,
+      "week": 8,
+      "subtasks": [
+        "Implement default global hotkey (focus app)",
+        "Add optional 'new note' global capture",
+        "Detect unsupported contexts and show guidance (Wayland)",
+        "Persist hotkey in settings; allow reset",
+        "Add tests for registration/unregistration flows"
+      ],
+      "depends_on": ["L08", "B07"]
+    },
+    {
+      "key": "L09",
+      "title": "Week 9 – Security & privacy (Learning)",
+      "description": "Capabilities tightening, CSP, sanitizer policy, secrets storage.",
       "priority": 1,
-      "week": 11,
-      "status": "todo",
-      "subtasks": ["DB tests", "Search property tests", "E2E CRUD + search"],
-      "depends_on": ["w10"]
+      "week": 9,
+      "subtasks": [
+        "Draft threat model and attack surface analysis",
+        "Review and tighten capabilities JSON (least privilege)",
+        "Define CSP for renderer and asset loading",
+        "Select secrets storage (OS keychain or encrypted vault)",
+        "Review plugin sandboxing assumptions"
+      ],
+      "depends_on": ["L08"]
     },
     {
-      "key": "w12",
-      "title": "Week 12 – Build & release basics",
-      "description": "Bundle per OS, signing/notarization plan, CI matrix.",
+      "key": "B09",
+      "title": "Week 9 – Capabilities lockdown & secrets (Build)",
+      "description": "Apply permissions, CSP headers, sanitizer allowlist, key storage.",
+      "priority": 1,
+      "week": 9,
+      "subtasks": [
+        "Apply minimal capabilities and verify features still work",
+        "Set CSP and block inline/eval; adjust bundling if needed",
+        "Harden sanitizer config and test paste XSS vectors",
+        "Integrate secrets storage abstraction (keychain/stronghold)",
+        "Add security regression tests"
+      ],
+      "depends_on": ["L09", "B08"]
+    },
+    {
+      "key": "L10",
+      "title": "Week 10 – MCP basics (Learning)",
+      "description": "Servers, tools, JSON-RPC, stdio transport, schemas, timeouts.",
+      "priority": 2,
+      "week": 10,
+      "subtasks": [
+        "Study MCP concepts: server, tools, resources, prompts",
+        "Build a simple TS/Python tool (summarize) over stdio",
+        "Define tool schema and validate inputs",
+        "Prototype timeouts and cancellation",
+        "Document plugin manifest conventions"
+      ],
+      "depends_on": ["L09"]
+    },
+    {
+      "key": "B10",
+      "title": "Week 10 – Plugin manager MVP (Build)",
+      "description": "Discover plugins, list tools, invoke summarizer, async UI panel.",
+      "priority": 2,
+      "week": 10,
+      "subtasks": [
+        "Discover plugins/ directory and parse manifests",
+        "Spawn plugin subprocess (stdio) and initialize",
+        "Invoke 'Summarize' with selected text; display result",
+        "Handle timeouts, cancellations, and error surfaces",
+        "Log plugin I/O safely; redact secrets"
+      ],
+      "depends_on": ["L10", "B09"]
+    },
+    {
+      "key": "L11",
+      "title": "Week 11 – Testing & QA patterns (Learning)",
+      "description": "Rust unit/integration, TS unit, E2E with Playwright, property tests.",
+      "priority": 2,
+      "week": 11,
+      "subtasks": [
+        "Set up Rust tests for DB and commands",
+        "Set up Vitest/Jest for TS components",
+        "Configure Playwright for Tauri E2E flows",
+        "Explore property tests for search normalization",
+        "Define CI test matrix plan"
+      ],
+      "depends_on": ["L10"]
+    },
+    {
+      "key": "B11",
+      "title": "Week 11 – Test suite baseline (Build)",
+      "description": "DB CRUD/FTS tests, TS unit tests, E2E for CRUD/search/clipboard.",
+      "priority": 2,
+      "week": 11,
+      "subtasks": [
+        "Write unit tests for migrations and FTS triggers",
+        "Add TS tests for editor sanitize and state logic",
+        "Create E2E for create/edit/delete note and search",
+        "Add E2E for clipboard capture and open-by-hotkey",
+        "Run tests on all OSes in dev"
+      ],
+      "depends_on": ["L11", "B10"]
+    },
+    {
+      "key": "L12",
+      "title": "Week 12 – Build & release basics (Learning)",
+      "description": "Bundling, installers overview, code signing, notarization, CI.",
       "priority": 2,
       "week": 12,
-      "status": "todo",
-      "subtasks": ["Build artifacts", "CI template", "Signing plan"],
-      "depends_on": ["w11"]
+      "subtasks": [
+        "Review Tauri bundling for Windows/macOS/Linux",
+        "Read code signing and notarization requirements",
+        "Survey MSI/WiX, DMG, AppImage options",
+        "Plan CI steps for multi-OS builds",
+        "Draft versioning and release notes process"
+      ],
+      "depends_on": ["L11"]
     },
     {
-      "key": "w13",
-      "title": "Week 13 – Project skeleton",
-      "description": "Repo, Tauri v2 app, plugins (store, logging, window-state), status bar.",
+      "key": "B12",
+      "title": "Week 12 – Dev releases pipeline (Build)",
+      "description": "Nightly/pre-release builds, artifact signing tests, versioning.",
+      "priority": 2,
+      "week": 12,
+      "subtasks": [
+        "Automate pre-release build artifacts for 3 OSes",
+        "Test-sign artifacts (local/dev) and verify install",
+        "Add semantic versioning and changelog generation",
+        "Attach artifacts to CI runs",
+        "Create a RELEASE.md with operator steps"
+      ],
+      "depends_on": ["L12", "B11"]
+    },
+    {
+      "key": "L13",
+      "title": "Week 13 – Data model refinements & FTS tuning (Learning)",
+      "description": "Index tuning, synonym/stemmer options, attachment strategy.",
       "priority": 2,
       "week": 13,
-      "status": "todo",
-      "subtasks": ["Single instance", "Window state", "Status bar"],
-      "depends_on": ["w12"]
+      "subtasks": [
+        "Review FTS tokenizer and stemming options",
+        "Consider synonyms table and query expansion rules",
+        "Decide large attachment handling on disk vs DB",
+        "Plan migration paths for schema evolution",
+        "Draft data retention/cleanup strategy"
+      ],
+      "depends_on": ["L12"]
     },
     {
-      "key": "w14",
-      "title": "Week 14 – DB and migrations",
-      "description": "Schema: notes, tags, attachments, FTS5, triggers, backups.",
-      "priority": 1,
+      "key": "B13",
+      "title": "Week 13 – Search filters & virtualization (Build)",
+      "description": "Add filters (tags/folders/date), virtualized results, cache.",
+      "priority": 2,
+      "week": 13,
+      "subtasks": [
+        "Implement filter chips (tags/folders/date ranges)",
+        "Add virtualized list for large result sets",
+        "Cache recent queries and results paging",
+        "Support advanced syntax (phrase/prefix toggles)",
+        "Add tests for filters and virtualization"
+      ],
+      "depends_on": ["L13", "B12"]
+    },
+    {
+      "key": "L14",
+      "title": "Week 14 – Theming & i18n (Learning)",
+      "description": "CSS variables, theme loader, contrast checks, basic i18n.",
+      "priority": 3,
       "week": 14,
-      "status": "todo",
-      "subtasks": ["Migrations", "Triggers working", "Backup API"],
-      "depends_on": ["w13"]
+      "subtasks": [
+        "Define CSS variable contract for colors/spacing/typography",
+        "Draft Tokyo Night default theme tokens",
+        "Add light theme variant and contrast checks",
+        "Plan i18n key structure (en as default)",
+        "Create theme override strategy for plugins"
+      ],
+      "depends_on": ["L13"]
     },
     {
-      "key": "w15",
-      "title": "Week 15 – Editor + CRUD UI",
-      "description": "Markdown/rich text editor, autosave, undo/redo, sanitize.",
+      "key": "B14",
+      "title": "Week 14 – Settings UI & theme switcher (Build)",
+      "description": "Settings pages, theme toggle, min font size, persistence.",
+      "priority": 2,
+      "week": 14,
+      "subtasks": [
+        "Build settings UI (hotkeys, theme, privacy toggles)",
+        "Implement theme switcher and persist to store",
+        "Respect minimum font size and UI scale",
+        "Allow plugin CSS injection (scoped)",
+        "Add UI tests for theme switching"
+      ],
+      "depends_on": ["L14", "B13"]
+    },
+    {
+      "key": "L15",
+      "title": "Week 15 – Import/Export & backup concepts (Learning)",
+      "description": "File formats, ZIP packaging, metadata preservation, tests.",
       "priority": 2,
       "week": 15,
-      "status": "todo",
-      "subtasks": ["Autosave", "Undo/redo", "Sanitized render"],
-      "depends_on": ["w14"]
+      "subtasks": [
+        "Define export formats (Markdown, JSON, ZIP with attachments)",
+        "Plan metadata mapping (tags, timestamps, hierarchy)",
+        "Design import idempotency and conflict handling",
+        "Review SQLite backup APIs and strategies",
+        "Draft test scenarios for round-trip"
+      ],
+      "depends_on": ["L14"]
     },
     {
-      "key": "w16",
-      "title": "Week 16 – Search UX (FTS5)",
-      "description": "AND/OR/phrase, prefix, bm25 rank, snippet, debounce.",
-      "priority": 1,
+      "key": "B15",
+      "title": "Week 15 – Import/Export & backup implementation (Build)",
+      "description": "Export/import notes & notebooks; DB backup with tests.",
+      "priority": 2,
+      "week": 15,
+      "subtasks": [
+        "Implement single note export to Markdown/JSON",
+        "Implement notebook export to ZIP with attachments",
+        "Implement import flows and conflict detection",
+        "Add manual backup and restore operations",
+        "Write round-trip tests and corruption handling"
+      ],
+      "depends_on": ["L15", "B14"]
+    },
+    {
+      "key": "L16",
+      "title": "Week 16 – Discord RPC concepts (Learning)",
+      "description": "Discord presence IPC, payloads, opt-in privacy, error handling.",
+      "priority": 3,
       "week": 16,
-      "status": "todo",
-      "subtasks": ["Prefix & phrase", "bm25 sorting", "Snippet highlight"],
-      "depends_on": ["w15"]
+      "subtasks": [
+        "Read Discord Rich Presence IPC basics",
+        "Plan app ID registration and activity payload fields",
+        "Define user privacy toggle and default off",
+        "Plan async updates and idle detection",
+        "Document licensing implications for libraries"
+      ],
+      "depends_on": ["L15"]
     },
     {
-      "key": "w17",
-      "title": "Week 17 – Clipboard integration",
-      "description": "New note from clipboard, HTML->sanitized text, images.",
+      "key": "B16",
+      "title": "Week 16 – Discord Rich Presence (Build)",
+      "description": "Optional presence updates, toggle, non-blocking, graceful fallback.",
+      "priority": 3,
+      "week": 16,
+      "subtasks": [
+        "Integrate presence updates when a note is active",
+        "Add settings toggle and persist state",
+        "Ensure non-blocking updates and timeouts",
+        "Handle missing/closed Discord client gracefully",
+        "Add tests/mocks around presence updates"
+      ],
+      "depends_on": ["L16", "B15"]
+    },
+    {
+      "key": "L17",
+      "title": "Week 17 – Hierarchy & tags design (Learning)",
+      "description": "UX and schema for folders/tags, tag queries, migrations.",
       "priority": 2,
       "week": 17,
-      "status": "todo",
-      "subtasks": ["Text/image", "HTML sanitize", "From clipboard button"],
-      "depends_on": ["w16"]
+      "subtasks": [
+        "Design nested folders UI and drag/drop behavior",
+        "Define tags data model and many-to-many mapping",
+        "Plan migrations and backfill for existing notes",
+        "Design tag queries integration with FTS",
+        "Draft keyboard commands for org actions"
+      ],
+      "depends_on": ["L16"]
     },
     {
-      "key": "w18",
-      "title": "Week 18 – Global hotkey",
-      "description": "Configurable shortcut, Wayland guidance/portal fallback.",
+      "key": "B17",
+      "title": "Week 17 – Implement hierarchy & tags (Build)",
+      "description": "Folders, tags, tag search/filter, migrations, tests.",
+      "priority": 2,
+      "week": 17,
+      "subtasks": [
+        "Implement folders CRUD and nesting in UI",
+        "Implement tags CRUD and tagging notes",
+        "Integrate tag filters into search and FTS queries",
+        "Run migrations and data backfill safely",
+        "Add unit/E2E tests for org features"
+      ],
+      "depends_on": ["L17", "B16"]
+    },
+    {
+      "key": "L18",
+      "title": "Week 18 – Autosave & recovery design (Learning)",
+      "description": "Crash-safe autosave, snapshot strategy, WAL checkpointing.",
       "priority": 2,
       "week": 18,
-      "status": "todo",
-      "subtasks": ["Default focus hotkey", "Settings override", "Wayland note"],
-      "depends_on": ["w17"]
+      "subtasks": [
+        "Design autosave cadence and conflict handling",
+        "Plan crash recovery strategy (drafts/snapshots)",
+        "Review WAL checkpoints and durability trade-offs",
+        "Identify critical-write fsync points",
+        "Define recovery UX and messaging"
+      ],
+      "depends_on": ["L17"]
     },
     {
-      "key": "w19",
-      "title": "Week 19 – Settings, theming",
-      "description": "Store JSON, CSS variables, Tokyo Night default, plugin CSS path.",
+      "key": "B18",
+      "title": "Week 18 – Autosave & crash recovery (Build)",
+      "description": "Drafts, recovery on restart, durability safeguards, tests.",
       "priority": 2,
-      "week": 19,
-      "status": "todo",
-      "subtasks": ["Theme toggle", "Min font size", "Plugin CSS"],
-      "depends_on": ["w18"]
+      "week": 18,
+      "subtasks": [
+        "Implement drafts/snapshots with cleanup policy",
+        "Recover unsaved edits on restart with prompt",
+        "Add critical fsync where needed",
+        "Test simulated crashes and recovery paths",
+        "Document recovery behavior for users"
+      ],
+      "depends_on": ["L18", "B17"]
     },
     {
-      "key": "w20",
-      "title": "Week 20 – MCP plugin manager",
-      "description": "Discover plugins/, manifest parse, spawn stdio, list/invoke, cancel.",
+      "key": "L19",
+      "title": "Week 19 – Security hardening & sandbox (Learning)",
+      "description": "Plugin trust model, resource limits, timeouts, file sandbox.",
       "priority": 1,
-      "week": 20,
-      "status": "todo",
-      "subtasks": ["Tool list", "Invoke & result", "Timeout & cancel"],
-      "depends_on": ["w19"]
+      "week": 19,
+      "subtasks": [
+        "Define plugin trust levels and allowlist policies",
+        "Establish CPU/memory/time limits for tools",
+        "Plan temp directory isolation and cleanup",
+        "Review renderer isolation and CSP again",
+        "Draft security checklist for release"
+      ],
+      "depends_on": ["L18"]
     },
     {
-      "key": "w21",
-      "title": "Week 21 – Import/Export/Backup",
-      "description": "Export MD/JSON/ZIP, import, periodic backup & checkpoint.",
+      "key": "B19",
+      "title": "Week 19 – Enforce plugin isolation & secrets (Build)",
+      "description": "Apply allowlists, timeouts, sandboxed paths, secret redaction.",
+      "priority": 1,
+      "week": 19,
+      "subtasks": [
+        "Restrict plugin access to sandboxed temp directories",
+        "Enforce timeouts/cancellation and process kill",
+        "Redact secrets from logs and error surfaces",
+        "Add permission prompts/toggles if needed",
+        "Create security regression test suite"
+      ],
+      "depends_on": ["L19", "B18"]
+    },
+    {
+      "key": "L20",
+      "title": "Week 20 – Performance profiling & memory (Learning)",
+      "description": "Profiling tools, list virtualization, DB perf, large dataset.",
+      "priority": 2,
+      "week": 20,
+      "subtasks": [
+        "Set up profiling tools for Rust and frontend",
+        "Analyze hot paths in search and rendering",
+        "Plan list virtualization thresholds",
+        "Create large synthetic dataset (50k notes)",
+        "Draft perf budget and targets"
+      ],
+      "depends_on": ["L19"]
+    },
+    {
+      "key": "B20",
+      "title": "Week 20 – Optimize and harden (Build)",
+      "description": "Virtualize lists, cache queries, non-blocking ops, progress UI.",
+      "priority": 2,
+      "week": 20,
+      "subtasks": [
+        "Add virtualization to notes and results lists",
+        "Cache frequent queries and precompute snippets",
+        "Ensure DB/MCP calls use spawn_blocking/async",
+        "Add progress indicators for long operations",
+        "Benchmark and meet perf targets"
+      ],
+      "depends_on": ["L20", "B19"]
+    },
+    {
+      "key": "L21",
+      "title": "Week 21 – Documentation & contributor guide (Learning)",
+      "description": "User guide, dev setup, style guide, plugin API docs, SRS sync.",
       "priority": 2,
       "week": 21,
-      "status": "todo",
-      "subtasks": ["Export notebook", "Import JSON", "Checkpoint on exit"],
-      "depends_on": ["w20"]
+      "subtasks": [
+        "Write user guide with screenshots and shortcuts",
+        "Write dev setup and coding standards (TS/Rust)",
+        "Document plugin API and sample manifests",
+        "Update SRS and architecture docs",
+        "Add issue/PR templates and codeowners"
+      ],
+      "depends_on": ["L20"]
     },
     {
-      "key": "w22",
-      "title": "Week 22 – Discord RPC (opt-in)",
-      "description": "Presence on active note, privacy toggle, idle detect.",
-      "priority": 3,
+      "key": "B21",
+      "title": "Week 21 – Publish docs & example plugin (Build)",
+      "description": "Docs site/build, sample MCP plugin repos, references in app.",
+      "priority": 2,
+      "week": 21,
+      "subtasks": [
+        "Publish docs (static site or GitHub Pages)",
+        "Create example MCP plugins (TS/Python) in separate repos",
+        "Link docs and samples from app About/Help",
+        "Add in-app onboarding tips",
+        "Validate docs by following them on a clean machine"
+      ],
+      "depends_on": ["L21", "B20"]
+    },
+    {
+      "key": "L22",
+      "title": "Week 22 – Packaging & CI finalization (Learning)",
+      "description": "Installers per OS, signing/notarization, CI pipelines, updates.",
+      "priority": 1,
       "week": 22,
-      "status": "todo",
-      "subtasks": ["Update presence", "Toggle off", "No block on error"],
-      "depends_on": ["w21"]
+      "subtasks": [
+        "Detail steps for MSI/WiX, DMG notarization, AppImage/DEB",
+        "Set up secure key storage for signing in CI",
+        "Plan release channels (alpha/beta/stable)",
+        "Decide on updater strategy (if any, opt-in)",
+        "Write operations runbook"
+      ],
+      "depends_on": ["L21"]
     },
     {
-      "key": "w23",
-      "title": "Week 23 – QA hardening",
-      "description": "Logs + rotation, error dialogs, autosave recovery, E2E suite.",
+      "key": "B22",
+      "title": "Week 22 – Installers & signing on 3 OSes (Build)",
+      "description": "Produce signed installers and CI pipelines for releases.",
+      "priority": 1,
+      "week": 22,
+      "subtasks": [
+        "Build signed MSI (Windows), DMG (macOS), AppImage/DEB (Linux)",
+        "Verify installation/uninstallation on clean VMs",
+        "Automate release pipelines with checksums",
+        "Attach artifacts and notes to tagged releases",
+        "Document manual verification checklist"
+      ],
+      "depends_on": ["L22", "B21"]
+    },
+    {
+      "key": "L23",
+      "title": "Week 23 – Beta feedback & triage (Learning)",
+      "description": "Collect user feedback, prioritize issues, decide scope cuts.",
+      "priority": 2,
+      "week": 23,
+      "subtasks": [
+        "Share beta with trusted users and gather feedback",
+        "Label and prioritize issues (P0/P1/P2)",
+        "Identify scope cuts to protect schedule",
+        "Plan fixes for usability and crashes first",
+        "Update documentation where confusing"
+      ],
+      "depends_on": ["L22"]
+    },
+    {
+      "key": "B23",
+      "title": "Week 23 – Bug fixes & polish (Build)",
+      "description": "Fix high-priority issues, a11y polish, perf edges, feature freeze.",
       "priority": 1,
       "week": 23,
-      "status": "todo",
-      "subtasks": ["Friendly error codes", "Recovery works", "E2E green"],
-      "depends_on": ["w22"]
+      "subtasks": [
+        "Fix P0/P1 bugs and add regression tests",
+        "Polish a11y: focus rings, labels, roles, contrast",
+        "Smooth perf on edge cases (large notes, huge tags)",
+        "Freeze features and update version to RC",
+        "Prepare final release notes"
+      ],
+      "depends_on": ["L23", "B22"]
     },
     {
-      "key": "w24",
-      "title": "Week 24 – Packaging & release",
-      "description": "Icons, AppImage/DEB, MSI/WiX, DMG, CI release, v0.1.0.",
+      "key": "L24",
+      "title": "Week 24 – Launch planning (Learning)",
+      "description": "Finalize release plan, comms, and post-release support process.",
       "priority": 2,
       "week": 24,
-      "status": "todo",
-      "subtasks": ["3 OS installers", "Signed where possible", "Release notes"],
-      "depends_on": ["w23"]
+      "subtasks": [
+        "Finalize 1.0 scope and acceptance criteria",
+        "Draft announcement and changelog",
+        "Plan support channels and issue triage cadence",
+        "Set dates for 1.0 and hotfix window",
+        "Prepare post-release monitoring plan"
+      ],
+      "depends_on": ["L23"]
+    },
+    {
+      "key": "B24",
+      "title": "Week 24 – 1.0 release & postmortem (Build)",
+      "description": "Ship 1.0, verify installers, monitor, collect metrics, and review.",
+      "priority": 1,
+      "week": 24,
+      "subtasks": [
+        "Tag and publish 1.0 across platforms",
+        "Verify installers on clean VMs post-upload",
+        "Monitor crash logs and critical issues",
+        "Hotfix if needed; update docs",
+        "Hold postmortem and backlog next milestones"
+      ],
+      "depends_on": ["L24", "B23"]
     }
   ]
 }
